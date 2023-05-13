@@ -7,11 +7,16 @@
   <a href="/post_create">СОЗДАТЬ ШЕДЕВР</a>
   {% endif %}
   {% for post in posts%}
-    <div>
-      {{post.text}}
+    <div class="post">
+      <a href="/posts/{{post.id}}"><h2 style="margin-left: 30px; margin-top: 30px;">{{post.title}}</h2></a>
       {% if post.image %}
-      <p><img src="/{{post.image}}"></p>
+      <p><img class="post_image" src="/media/{{post.image}}"></p>
       {% endif %}
+      <div class="post_info">
+        <p><i>Создано {{post.pub_date}}</i></p>
+        <p><i>Автор: </i><b>{{post.author}}</b></p>
+      </div>
+      
     </div>
   {% endfor %}
 </div>

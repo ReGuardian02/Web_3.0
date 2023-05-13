@@ -3,9 +3,9 @@
 {% block content %}
 
 <div class="desc_container" style="width: 670px; height: 1150px;">
-  <form method="POST" action="" style="text-align: left;">
+  <form method="POST" action="" style="text-align: right; width: 900px; margin-left: 200px;">
       {% csrf_token %}
-      <h2>Оставьте свой отзыв, как вы оцениваете характеристики сайта:</h2>
+      <h2>Оставьте свое имя, адрес электронной почты и отзыв о сайте</h2>
       {{form.as_p}}
       <input type="submit" value="Отправить" />
   </form>

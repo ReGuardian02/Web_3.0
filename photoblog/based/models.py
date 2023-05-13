@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 class Post(models.Model):
+    title = models.TextField(max_length=50, verbose_name='Заголовок')
     text = models.TextField(max_length=500, verbose_name='Текст')
     pub_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата публикации')
     author = models.ForeignKey(

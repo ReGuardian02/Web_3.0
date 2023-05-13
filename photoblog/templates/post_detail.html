@@ -4,29 +4,30 @@
 <div class="container py-5">
     <div class="row">
         <aside class="col-12 col-md-3">
+          <div class="post_content">
+          <div class="inner_post">
           <article>
-            <li class="list-group-item">
+            <h4><li>
+              
                   Автор:
                    {{ post.author.get_full_name }} {{ post.author.username }}
-                </li>
-                <li 
-                class="list-group-item d-flex justify-content-between
-                align-items-center">
-                Всего постов автора:  <span >{{ post_number }}</span>
-              </li>
+                  
+            </li></h4>
+            <h3><li>
+                  Заголовок:
+                  <b>{{ post.title }}</b>
+            </li></h3>
             </ul>
-          </aside>
+          
           <article class="col-12 col-md-9">
             {% if post.image %}
                 <div class="post_img"><img src="/media/{{post.image}}" /></div>
             {% endif %}
-            <p>{{ post.text }}</p>
-            {% if user.id ==  post.author.id %}
-              <a class="btn btn-primary" href="{% url 'posts:post_edit' post.id %}">
-                Редактировать запись
-              </a>
-            {% endif %}
+            <li>Текст поста: {{ post.text }}</li>
           </article>
+        </div>
+        </div>
+      </aside>
           {% if user.is_authenticated %}
             <div class="card my-4">
               <h5 class="card-header">Добавить комментарий:</h5>
@@ -41,11 +42,11 @@
           {% endif %}
   
           {% for comment in post_comments reversed %}
-            <div class="media mb-4">
-              <div class="media-body">
-                <h5 class="mt-0">
+            <div class="media mb-4 comment">
+              <div class="media-body comment_text">
+                <h4 class="mt-0">
                   <a>
-                    {{ comment.author.username }}
+                    <b>{{ comment.author.username }}</b>
                   </a>
                 </h5>
                 <p>
