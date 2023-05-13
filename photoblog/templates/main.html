@@ -1,0 +1,13 @@
+{%load static%}
+{% include 'head.html' %}
+{% include 'navbar.html' %}
+<!DOCTYPE html>
+<html>
+<body>
+    <div style="margin-top: 50px;">
+    {% block head %}{% endblock %}
+    {% block navbar %}{% endblock %}
+    {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

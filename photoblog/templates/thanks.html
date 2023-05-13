@@ -1,0 +1,13 @@
+{% extends "main.html" %}
+{% load static %}
+{% block content %}
+
+<div class="desc_container" style="width: 500px; height: 500px;">
+    <h1>Спасибо за отзыв!</h1>
+    <h3>Введённые данные:</h3>
+    <p>Имя: {{feedback.name}}</p>
+    <p>Имейл: {{feedback.email}}</p>
+    <p>Текст: {{feedback.text}}</p>
+</div>
+
+{% endblock %}

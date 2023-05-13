@@ -1,0 +1,14 @@
+{% extends "main.html" %}
+{% load static %}
+{% block content %}
+
+<div class="desc_container" style="width: 670px; height: 1150px;">
+  <form method="POST" action="" style="text-align: left;">
+      {% csrf_token %}
+      <h2>Оставьте свой отзыв, как вы оцениваете характеристики сайта:</h2>
+      {{form.as_p}}
+      <input type="submit" value="Отправить" />
+  </form>
+</div>
+
+{% endblock %}

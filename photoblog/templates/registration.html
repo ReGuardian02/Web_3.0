@@ -1,0 +1,16 @@
+{% extends "main.html" %}
+{% load static %}
+{% block content %}
+
+<form method="POST" action="">
+
+    {% csrf_token %}
+    
+    {{ form.as_p }}
+    
+    <input type="submit" value="Отправить">
+    
+</form>
+<p><h2>У вас есть аккаунт?</h2></p>
+<a href="/login">Войти</a>
+{% endblock %}

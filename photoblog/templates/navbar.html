@@ -1,0 +1,38 @@
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+    <div class="w3-bar" id="myNavbar">
+      <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
+        <i class="fa fa-bars"></i>
+      </a>
+      <a href="/" class="w3-bar-item w3-button" style="height: 50px;"><img src="/media/icom.png" style="height: 30px;"></a>
+      <a href="/#about" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-user"></i> ОБО МНЕ</a>
+      <a href="/#portfolio" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-th"></i> ПОРТФОЛИО</a>
+      <a href="/#contact" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-envelope"></i> КОНТАКТЫ</a>
+      <a href="/blog" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-pencil-square"></i> БЛОГ </a>
+      <a href="/meeedia" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-pencil-square"></i> МЕДИА </a>
+      <a href="/links" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-link"></i> ПОЛЕЗНЫЕ ССЫЛКИ </a>
+      <a href="/site" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-info"></i> О САЙТЕ </a>
+      <a href="/feedback" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-commenting"></i> ОБРАТНАЯ СВЯЗЬ </a>
+      {% if request.user.is_authenticated %}
+        <a class="username_label w3-bar-item w3-hide-small">
+            {{request.user}}
+        </a>
+        <a href="/logout" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-in"></i> ВЫЙТИ </a>
+          {% else %}
+          <a href="/login" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red"><i class="fa fa-sign-in"></i> ВОЙТИ </a>
+      
+      {% endif %}
+
+    </div>
+  
+    <!-- Navbar on small screens -->
+    <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium">
+      <a href="#about" class="w3-bar-item w3-button" onclick="toggleFunction()">ОБО МНЕ</a>
+      <a href="#portfolio" class="w3-bar-item w3-button" onclick="toggleFunction()">ПОРТФОЛИО</a>
+      <a href="#contact" class="w3-bar-item w3-button" onclick="toggleFunction()">КОНТАКТЫ</a>
+      <a href="/links" class="w3-bar-item w3-button" onclick="toggleFunction()"> ПОЛЕЗНЫЕ ССЫЛКИ </a>
+      <a href="/site" class="w3-bar-item w3-button" onclick="toggleFunction()"> О САЙТЕ </a>
+      <a href="/feedback" class="w3-bar-item w3-button" onclick="toggleFunction()"> ОБРАТНАЯ СВЯЗЬ </a>
+    </div>
+  </div>
+  

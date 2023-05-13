@@ -1,0 +1,23 @@
+{% extends "main.html" %}
+{% load static %}
+{% block content %}
+
+<div class="login_template">
+    <form method="POST" action="">
+        {% csrf_token %}
+        <div class="form_element">
+            <div>Логин</div>
+            <input type="text" name="username" placeholder="Логин"/>
+        </div>
+
+        <div class="form_element">
+            <div>Пароль</div>
+            <input type="password" name="password" placeholder="Пароль"/>
+         </div>
+        <input class="login" type="submit" value="Войти" />
+    </form>
+
+<p>Нет аккаунта?</p>
+<a href="{% url 'sign_up' %}">Зарегистрироваться</a></p>
+
+{% endblock %}
