@@ -1,24 +1,6 @@
 from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
-
-
-"""
-URL configuration for photoblog project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path
 from based import views
@@ -34,9 +16,17 @@ urlpatterns = [
     path('login/', views.log_in, name='login'), 
     path('logout/', views.LogoutUser, name='logout'),
     path('post_create/', views.post_create, name='post_create'),
+    path("post/<int:post_id>/edit/", views.post_edit, name="post_edit"),
+    path("posts/<int:post_id>/edit/", views.post_edit, name="post_edit"),
     path('posts/<int:post_id>/', views.post, name='post'),
     path('post/<int:post_id>/', views.post, name='post'),
     path('meeedia/', views.meeedia, name='meeedia'),
     path('thanks/<int:pk>/', views.thanks, name='thanks'),
     path('create_feedback/', views.create_feedback, name='create_feedback'),
+    path('shop/', views.shop, name='product_shop'),
+    path('product_create/', views.product_create, name='product_create'),
+    path("product/<int:product_id>/edit/", views.product_edit, name="product_edit"),
+    path("products/<int:product_id>/edit/", views.product_edit, name="product_edit"),
+    path('products/<int:product_id>/', views.product, name='product'),
+    path('product/<int:product_id>/', views.product, name='product'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

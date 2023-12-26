@@ -28,6 +28,11 @@
         </div>
         </div>
       </aside>
+      {% if permission_check == True or user.id == post.author.id%}
+            <a class="btn btn-primary" href="{% url 'post_edit' post.id %}">
+              Редактировать запись
+            </a>
+      {% endif %}
           {% if user.is_authenticated %}
             <div class="card my-4">
               <h5 class="card-header">Добавить комментарий:</h5>

@@ -8,7 +8,9 @@
   {% endif %}
   {% for post in posts%}
     <div class="post">
-      <a href="/posts/{{post.id}}"><h2 style="margin-left: 30px; margin-top: 30px;">{{post.title}}</h2></a>
+      <a href="/posts/{{post.id}}">
+        <h2 style="margin-left: 30px; margin-top: 30px;">{{post.title}}</h2>
+      </a>
       {% if post.image %}
       <p><img class="post_image" src="/media/{{post.image}}"></p>
       {% endif %}

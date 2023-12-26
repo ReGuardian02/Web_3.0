@@ -1,0 +1,70 @@
+{% extends "main.html" %}
+{% load static %}
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <aside class="col-12 col-md-3">
+          <div class="product_content">
+          <div class="inner_product">
+          <article>
+            <h4><li>
+
+                  Автор:
+                   {{ product.author.get_full_name }} {{ product.author.username }}
+                  
+            </li></h4>
+            <h3><li>
+                  Наименование:
+                  <b>{{ product.title }}</b>
+            </li></h3>
+            <h2 class="tag" style="display: inline-block; margin-left: 50px; background: gray; font-size: 20px;">{{product.tags}}</h2>
+            </ul>
+          
+          <article class="col-12 col-md-9">
+            {% if product.image %}
+                <div class="product_img"><img src="/media/{{product.image}}" /></div>
+            {% endif %}
+            <li>Описание товара: {{ product.text }}</li>
+          </article>
+        </div>
+        </div>
+      </aside>
+      {% if permission_check == True or user.id == product.author.id%}
+            <a class="btn btn-primary" href="{% url 'product_edit' product.id %}">
+              Редактировать запись
+            </a>
+      {% endif %}
+      {% comment %}
+      Если тег=обмен произведен\отменено, то комменты писать нельзя
+      Менять статус может только админ и автор объявления
+      {% endcomment %}
+          {% if user.is_authenticated %}
+            <div class="card my-4">
+              <h5 class="card-header">Написать сообщение:</h5>
+              <div class="card-body">
+                <form method="post" action="">
+                  {% csrf_token %}      
+                  <input type="text" name="body">
+                  <button type="submit" class="btn btn-primary">Отправить</button>
+                </form>
+              </div>
+            </div>
+          {% endif %}
+  
+          {% for chat in product_chats reversed %}
+            <div class="media mb-4 chat">
+              <div class="media-body chat_text">
+                <h4 class="mt-0">
+                  <a>
+                    <b>{{ chat.author.username }}</b>
+                  </a>
+                </h5>
+                <p>
+                  {{ chat.text }}
+                </p>
+              </div>
+            </div>
+          {% endfor %}
+    </div>
+  <div class="container py-5">
+{% endblock %}

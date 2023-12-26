@@ -1,14 +1,19 @@
 from django.shortcuts import render
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import PostForm, CommentForm, FeedbackForm
+from .forms import PostForm, CommentForm, FeedbackForm, ProductForm, ChatForm
 from django.core.paginator import Paginator
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
-from .models import Post, Comment, Feedback
+from .models import Post, Comment, Feedback, Product, Chat
+from django.contrib.auth.models import Group
+
+
+is_staff = Group.objects.get_or_create(name='staff')
+users_in_stuff = User.objects.filter(groups__name='staff')
 
 # Create your views here.
 def index(request):
@@ -51,9 +56,76 @@ def site(request):
 def feedback(request):
     return render(request, "feedback.html")
 
-def blog(request):
-    posts = Post.objects.all()
-    return render(request, "blog.html", {'posts':posts})
+def shop(request):
+    products = Product.objects.all()
+    return render(request, "shop.html", {'products':products})
+
+@login_required
+def product_create(request):
+    form = ProductForm(request.POST or None, files=request.FILES or None,)
+    if form.is_valid():
+        product = form.save(commit=False)
+        product.author = request.user
+        product.save()
+        return redirect('blog')
+    return render(request, 'product_creation.html', {'form': form})
+
+def product_detail(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    title = str(product.text)[:30]
+    number_of_products = Product.objects.filter(author=product.author).count()
+    form = ChatForm()
+    chats = Chat.objects.filter(product=product)
+    context = {
+        'product': product,
+        'title': title,
+        'number_of_products': number_of_products,
+        'form': form,
+        'chats': chats
+    }
+    return render(request, 'product_detail', context)
+
+def product_edit(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    if product.author != request.user and request.user not in users_in_stuff:
+        return redirect('product', product_id_id=product_id)
+    form = ProductForm(
+        request.POST or None,
+        files=request.FILES or None,
+        instance=product
+    )
+    if form.is_valid():
+        form.save()
+        return redirect('product', product_id=product_id)
+    context = {
+        'product': product,
+        'form': form,
+        'is_edit': True,
+    }
+    return render(request, 'product_creation.html', context)
+
+def product(request, product_id):
+    product = Product.objects.get(id = product_id)
+    product_chats = Chat.objects.filter(product=product.id)
+
+    if request.user in users_in_stuff:
+        permission_check = True
+    else:
+        permission_check = False
+
+    if request.method == 'POST':
+        chat = Chat.objects.create(
+            author = request.user,
+            product = product,
+            text = request.POST.get('body')
+        )
+        return redirect('product',product_id=product.id)
+    context = {
+        'product':product,
+        'product_chats':product_chats,
+        'permission_check': permission_check
+        }
+    return render(request, 'product_detail.html', context)
 
 def meeedia(request):
     return render(request, "media.html")
@@ -88,6 +160,10 @@ def LogoutUser(request):
     logout(request)
     return redirect('home')
 
+def blog(request):
+    posts = Post.objects.all()
+    return render(request, "blog.html", {'posts':posts})
+
 @login_required
 def post_create(request):
     form = PostForm(request.POST or None, files=request.FILES or None,)
@@ -114,12 +190,33 @@ def post_detail(request, post_id):
     }
     return render(request, 'post_detail', context)
 
+def post_edit(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    if post.author != request.user and request.user not in users_in_stuff:
+        return redirect('post', post_id=post_id)
+    form = PostForm(
+        request.POST or None,
+        files=request.FILES or None,
+        instance=post
+    )
+    if form.is_valid():
+        form.save()
+        return redirect('post', post_id=post_id)
+    context = {
+        'post': post,
+        'form': form,
+        'is_edit': True,
+    }
+    return render(request, 'post_creation.html', context)
+
 def post(request, post_id):
     post = Post.objects.get(id = post_id)
-    #post_comments = post.comment_set.all()
-    # messages_set.all() - возвращает набор моделей Message из models.py,
-    # связанных с этой комнатой
     post_comments = Comment.objects.filter(post=post.id)
+
+    if request.user in users_in_stuff:
+        permission_check = True
+    else:
+        permission_check = False
 
     if request.method == 'POST':
         comment = Comment.objects.create(
@@ -128,7 +225,11 @@ def post(request, post_id):
             text = request.POST.get('body')
         )
         return redirect('post',post_id=post.id)
-    context = {'post':post,'post_comments':post_comments}
+    context = {
+        'post':post,
+        'post_comments':post_comments,
+        'permission_check': permission_check
+        }
     return render(request, 'post_detail.html', context)
 
 def create_feedback(request):

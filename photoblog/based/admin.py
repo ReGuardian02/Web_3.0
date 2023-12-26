@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Comment, Feedback
+from .models import Post, Comment, Feedback, Tag, Product, Chat
 
 
 class PostAdmin(admin.ModelAdmin):
@@ -13,7 +13,6 @@ class PostAdmin(admin.ModelAdmin):
     list_filter = ('pub_date',)
     empty_value_display = '-пусто-'
 
-
 class CommentAdmin(admin.ModelAdmin):
     list_display = (
         'post',
@@ -24,3 +23,6 @@ class CommentAdmin(admin.ModelAdmin):
 admin.site.register(Post, PostAdmin)
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(Feedback)
+admin.site.register(Tag)
+admin.site.register(Product)
+admin.site.register(Chat)
